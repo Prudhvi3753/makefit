@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .welcome-box {
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .dashboard-box {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .section {
+      margin-top: 20px;
+    }
+
+    .section input {
+      width: 80%;
+    }
+
+    .details-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #28a745;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .details-button:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome-box" id="welcomeText">Welcome, User</div>
+
+  <div class="container">
+    <div class="dashboard-box">
+      <h3>Calorie Tracker</h3>
+      <p>Calories Consumed: <strong id="caloriesIn">0</strong> kcal</p>
+      <p>Calories Burned: <strong id="caloriesOut">0</strong> kcal</p>
+
+      <div class="section">
+        <h4>Water Intake (ml)</h4>
+        <input type="number" id="water" placeholder="e.g. 2000" />
+      </div>
+
+      <div class="section">
+        <h4>Weight (kg)</h4>
+        <input type="number" id="weight" placeholder="e.g. 65" />
+      </div>
+
+      <button class="details-button" onclick="window.location.href='details.html'">
+  Enter Full Details
+</button>
+
+    </div>
+  </div>
+
+  <script>
+    // Display welcome name from localStorage
+    const user = localStorage.getItem("loggedInUser");
+    if (!user) {
+      alert("You must login first.");
+      window.location.href = "login.html";
+    } else {
+      document.getElementById("welcomeText").textContent = `Welcome, ${user}`;
+    }
+
+    function enterDetails() {
+      const water = document.getElementById("water").value;
+      const weight = document.getElementById("weight").value;
+
+      if (!water || !weight) {
+        alert("Please enter both water intake and weight.");
+        return;
+      }
+
+      alert(`Details Saved!\nWater: ${water}ml\nWeight: ${weight}kg`);
+    }
+  </script>
+</body>
+</html>

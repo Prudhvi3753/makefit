@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enter Full Details</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    .results {
+      display: none;
+      background: #e9f7ef;
+      margin-top: 20px;
+      padding: 15px;
+      border-left: 5px solid #28a745;
+      border-radius: 5px;
+    }
+
+    .results h3 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Enter Your Fitness Details</h2>
+
+    <input type="number" id="age" placeholder="Age" required>
+    <input type="number" id="weight" placeholder="Current Weight (kg)" required>
+    <input type="number" id="bodyFat" placeholder="Body Fat (%)" required>
+    
+    <select id="goal" required>
+      <option value="">Select Goal</option>
+      <option value="cutting">Cutting</option>
+      <option value="bulking">Bulking</option>
+      <option value="fatloss">Fat Loss</option>
+    </select>
+
+    <button onclick="generatePlan()">Generate Plan</button>
+
+    <div class="results" id="results"></div>
+  </div>
+
+  <script>
+    function generatePlan() {
+      const age = parseInt(document.getElementById("age").value);
+      const weight = parseFloat(document.getElementById("weight").value);
+      const fat = parseFloat(document.getElementById("bodyFat").value);
+      const goal = document.getElementById("goal").value;
+
+      if (!age || !weight || !fat || !goal) {
+        alert("Please fill in all fields");
+        return;
+      }
+
+      const leanMass = weight * (1 - fat / 100);
+      let protein, carbs, fats, diet, workout;
+
+      if (goal === "cutting" || goal === "fatloss") {
+        protein = leanMass * 2.2;
+        carbs = weight * 2;
+        fats = weight * 0.8;
+        diet = `
+          <strong>Diet Plan (Cutting):</strong><br>
+          🔹 Breakfast: Oats + 3 egg whites<br>
+          🔹 Lunch: Grilled chicken + rice + veggies<br>
+          🔹 Dinner: Paneer/tofu + salad<br>
+          🔹 Snacks: Nuts + fruits
+        `;
+        workout = `
+          <strong>Workout Split:</strong><br>
+          • Mon - Push<br>
+          • Tue - Pull<br>
+          • Wed - Legs<br>
+          • Thu - Core + Cardio<br>
+          • Fri - Full Body<br>
+          • Sat - HIIT<br>
+          • Sun - Rest
+        `;
+      } else if (goal === "bulking") {
+        protein = leanMass * 2.0;
+        carbs = weight * 4;
+        fats = weight * 1;
+        diet = `
+          <strong>Diet Plan (Bulking):</strong><br>
+          🔹 Breakfast: Eggs + toast + banana shake<br>
+          🔹 Lunch: Chicken curry + rice + dal<br>
+          🔹 Dinner: Mutton/fish + roti + curd<br>
+          🔹 Snacks: Milk + peanut butter + whey protein
+        `;
+        workout = `
+          <strong>Workout Split:</strong><br>
+          • Mon - Chest<br>
+          • Tue - Back<br>
+          • Wed - Legs<br>
+          • Thu - Shoulders<br>
+          • Fri - Arms<br>
+          • Sat - Full body + Abs<br>
+          • Sun - Active rest
+        `;
+      }
+
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.style.display = "block";
+      resultsDiv.innerHTML = `
+        <h3>Your Personalized Plan</h3>
+        <strong>Macros (per day):</strong><br>
+        🔸 Protein: ${protein.toFixed(1)} g<br>
+        🔸 Carbs: ${carbs.toFixed(1)} g<br>
+        🔸 Fats: ${fats.toFixed(1)} g<br><br>
+        ${diet}<br><br>
+        ${workout}
+      `;
+    }
+  </script>
+</body>
+</html>
